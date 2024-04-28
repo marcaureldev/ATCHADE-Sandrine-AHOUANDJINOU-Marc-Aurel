@@ -1,9 +1,12 @@
+import 'dart:io';
+
 class Candidate {
   String? name;
   String? surname;
   String? parti_politique;
   String? describe;
   DateTime? birthdate;
+  File? image;
   
 
   Candidate({this.name, this.surname,this.parti_politique, this.describe, this.birthdate});

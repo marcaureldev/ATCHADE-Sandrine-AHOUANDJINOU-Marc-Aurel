@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:application_vote/common/button_form.dart';
 import 'package:application_vote/common/input_form.dart';
 import 'package:application_vote/models/candidate.dart';
@@ -16,15 +15,18 @@ class FormulaireCandidat extends StatefulWidget {
 class _FormulaireCandidatState extends State<FormulaireCandidat> {
   final _formKey = GlobalKey<FormState>();
   final Candidate candidate = Candidate();
-  List<File> files = [];
+  File? _image; // Déclarez _image ici
 
-  void takeImage() async {
+  Future<void> takeImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    print("Image ${image!.path}");
-    var file = File(image.path);
-    files.add(file);
-    setState(() {});
+
+    if (image != null) {
+      setState(() {
+        _image = File(image.path); 
+        candidate.image = _image;
+      });
+    }
   }
 
   @override
@@ -41,19 +43,33 @@ class _FormulaireCandidatState extends State<FormulaireCandidat> {
               child: ListView(children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 200,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.brown.shade50,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: IconButton(
-                        onPressed: () {
-                          takeImage();
-                        },
-                        icon: Icon(Icons.photo)),
-                  ),
+                  child: _image == null
+                      ? Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.brown.shade50,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              takeImage();
+                            },
+                            icon: Icon(Icons.camera),
+                          ),
+                        )
+                      : Container(
+                          height: 200,
+                          width: 200,
+                          decoration: BoxDecoration(
+                            color: Colors.brown.shade50,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Image.file(
+                            candidate.image!, // Afficher l'image sélectionnée
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                 ),
                 SizedBox(height: 20),
                 InputForm(
@@ -148,7 +164,6 @@ class _FormulaireCandidatState extends State<FormulaireCandidat> {
     );
   }
 }
-
 
 
 

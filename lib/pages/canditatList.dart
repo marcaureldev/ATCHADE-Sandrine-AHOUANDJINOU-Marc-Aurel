@@ -7,10 +7,10 @@ class CandidatList extends StatefulWidget {
   const CandidatList({super.key});
 
   @override
-  State<CandidatList> createState() => _FriendListPageState();
+  State<CandidatList> createState() => _CandidatListState();
 }
 
-class _FriendListPageState extends State<CandidatList> {
+class _CandidatListState extends State<CandidatList> {
   String name = "";
   bool liked = false;
   List<Candidate> candidates = [];
@@ -21,7 +21,7 @@ class _FriendListPageState extends State<CandidatList> {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         title: Text(
-          "Hello Samit",
+          "Elections ",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 30,
@@ -89,6 +89,11 @@ class _FriendListPageState extends State<CandidatList> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
+                              image: DecorationImage(
+                                  image: FileImage(
+                                    candidate.image!
+                                  )
+                                ),
                             ),
                             width: 80,
                             height: 80,
